@@ -1,15 +1,21 @@
-const express = require('express');
+import express from 'express';
+import { createRequire } from "module";  const require = createRequire(import.meta.url);
 const app = express();
+const cron = require('node-cron');
 const serviceAccount =  require('./key.json');
-const admin  = require('firebase-admin');
-const  bp = require('body-parser');
-const  cors = require('cors');
-const path = require('path');
+import admin from 'firebase-admin';
+import bp from 'body-parser';
+import cors from 'cors';
+import fetch from 'node-fetch';
+import path from 'path';
+import {dirname} from 'path';
+import { fileURLToPath } from 'url';
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 app.use(cors());
 app.use(bp.json());
 app.use(bp.urlencoded({extended:true}));
+const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, 'build')));
 
 const firebaseConfig = {
@@ -20,6 +26,18 @@ const firebaseConfig = {
 admin.initializeApp(firebaseConfig);
 const db = admin.firestore();
 
+cron.schedule("*/5 * * * *'", () => {
+   fetch("https://gdsc-task.onrender.com/keep-alive").then(r => r.text()).then(d => console.log(d)).catch(e => console.log(e));
+ });
+
+app.get('/keep-alive', (req, res) => {
+  try{
+    res.send("Alive");
+  }
+  catch(e){
+    console.log(e);
+  }
+});
 
 app.post("/addthread", async(req, res) => {
   try {
@@ -157,6 +175,7 @@ app.post("/reaction", async(req, res) => {
     res.send(e); console.log(e);
   }
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
