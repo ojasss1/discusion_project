@@ -6,7 +6,6 @@ const serviceAccount =  require('./key.json');
 import admin from 'firebase-admin';
 import bp from 'body-parser';
 import cors from 'cors';
-import fetch from 'node-fetch';
 import path from 'path';
 import {dirname} from 'path';
 import { fileURLToPath } from 'url';
