@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Firestore Data</title>
+</head>
+<body>
+    <center>
+    <form action="/addpost" method="POST" enctype="multipart/form-data" style="padding: 20%;">
+        <input type="file" name="file" accept="image/*">
+        <button type="submit">Upload</button>
+        <label for="email">Email:</label>
+        <input type="text" name="email">
+        <label for="userid">Name:</label>
+        <input type="text" name="userid">
+    </form>
+    <form action="/addtodo" method="POST" style="padding: 20%;">
+      <label for="userid"> Userid : </label>
+      <input type="txt" name="userid"> </input>
+      <label for="task"> Task : </label>
+      <input type="text" name="task"> </input>
+      <button type="submit"> Send <button>
+    </form>
+    <button id="hmm" style="padding: 5%;">Get Posts</button>
+    <button id="hmm1" style="padding: 5%;">Get Todo</button>
+    <div id="ress"></div>
+  </center>
+</body>
+    <script>
+        document.getElementById("hmm").addEventListener("click", function() {
+            fetch("/getpost")
+                .then((res) => {
+                    if (!res.ok) {
+                        console.log("Error");
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                  console.log(data[2].url);
+                    document.getElementById("ress").innerHTML = JSON.stringify(data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+        document.getElementById("hmm1").addEventListener("click", function() {
+            fetch("/gettodo")
+                .then((res) => {
+                    if (!res.ok) {
+                        console.log("Error");
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    document.getElementById("ress").innerHTML = JSON.stringify(data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+    </script>
+</html>
