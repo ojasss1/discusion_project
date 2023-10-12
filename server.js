@@ -29,7 +29,7 @@ admin.initializeApp(firebaseConfig);
 const db = admin.firestore();
 
 
-cron.schedule('*/7 * * * * *', () => {
+cron.schedule('*/7 * * * *', () => {
   fetch('https://gdsc-task.onrender.com/keep-alive').then((res) => res.text()).then((data) => console.log(data)).catch((e) => console.log(e));
 });
 
