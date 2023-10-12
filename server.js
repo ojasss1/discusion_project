@@ -25,17 +25,12 @@ const firebaseConfig = {
 admin.initializeApp(firebaseConfig);
 const db = admin.firestore();
 
-cron.schedule("*/5 * * * *'", () => {
+cron.schedule("*/5 * * * *", () => {
    fetch("https://gdsc-task.onrender.com/keep-alive").then(r => r.text()).then(d => console.log(d)).catch(e => console.log(e));
  });
 
 app.get('/keep-alive', (req, res) => {
-  try{
-    res.send("Alive");
-  }
-  catch(e){
-    console.log(e);
-  }
+  res.send("Alive");
 });
 
 app.post("/addthread", async(req, res) => {
