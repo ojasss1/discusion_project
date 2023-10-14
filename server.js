@@ -30,7 +30,7 @@ const db = admin.firestore();
 
 
 cron.schedule('*/7 * * * *', () => {
-  fetch('https://gdsc-task.onrender.com/keep-alive').then((res) => res.text()).then((data) => console.log(data)).catch((e) => console.log(e));
+  fetch('https://discussion-project.onrender.com/keep-alive').then((res) => res.text()).then((data) => console.log(data)).catch((e) => console.log(e));
 });
 
 
