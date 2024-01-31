@@ -134,12 +134,20 @@ app.post('/register', async(req, res) => {
     })
     .then((userRecord) => {
       console.log('Successfully created new user:', userRecord.uid);
-      res.send("registered");
+      res.send({
+        msg : "Registered",
+      });
     })
     .catch((error) => {
       console.log(error);
       if (error.code == "auth/email-already-exists"){
-        res.send("User exists");
+        res.send({
+          msg : "User exists"});
+      }
+      else{
+        res.send({
+          msg : error.message + "Please try again."
+        })
       }
     });
 
@@ -157,7 +165,9 @@ app.post('/register', async(req, res) => {
     // });
   }
   catch(err){
-    console.log(err); res.send(err, "Registration failed");
+    console.log(err); res.send({
+      msg : "Registration failed. Please try again and if problem continues please try in some time."
+    });
   }
 });
 
